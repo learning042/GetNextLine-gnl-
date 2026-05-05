@@ -6,7 +6,7 @@
 /*   By: tpinto-v <tpinto-v@student.42lisb...>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 15:48:28 by tpinto-v          #+#    #+#             */
-/*   Updated: 2026/05/04 19:50:02 by tpinto-v         ###   ########.fr       */
+/*   Updated: 2026/05/05 19:15:27 by tpinto-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,17 @@ char	*my_strcat(char *s1, char *s2)
 		++i;
 		++j;
 	}
+	if (s2[j] == '\n')
+	{
+		s1[i] = '\n';
+		s1[i + 1] = '\0';
+		return (s1);
+	}
 	s1[i] = '\0';
 	return (s1);
 }
 
-char	*my_strjoin(char *s1, char *s2)
+char	*my_strjoin(char *s1, char *s2, int was_allocated)
 {
 	static char	*s_conc;
 	size_t	i;
@@ -63,6 +69,9 @@ char	*my_strjoin(char *s1, char *s2)
 	s_conc[i] = '\0';
 	my_strcat(s_conc, s1);
 	my_strcat(s_conc, s2);
+	if (was_allocated)
+		free(s1);
+	s1 = s_conc;
 	return (s_conc);
 }
 
@@ -83,22 +92,23 @@ void	shift_to_beggining(char arr[], int nindex, int size)
 
 char	*get_next_line(int fd)
 {
-	static char	buffer[BUFFER_SIZE + 1];
+	static char	buffer[BUFFER_SIZE];
 	char		*line;
 	size_t		i;
-	char		tmp[1];
 
-	if (buffer[0] == '\0')
+	read(fd, buffer, BUFFER_SIZE);
+	line = malloc(BUFFER_SIZE + 1);
+	my_strjoin(line, buffer, 1);
+	while (line[my_strlen(line, '\n') - 1] != '\n')
 	{
-		read(fd, buffer, BUFFER_SIZE);
-		line = my_strjoin(tmp, buffer);
-		while (line[my_strlen(line, '\n') - 1] != '\n')
+		if (read(fd, buffer, BUFFER_SIZE) < BUFFER_SIZE)
 		{
-			read(fd, buffer, BUFFER_SIZE);
-			my_strjoin(line, buffer);	
-
-
-
+			my_strjoin(line, buffer, 1);
+			break;
+		}
+		my_strjoin(line, buffer, 1);	
+	}
+	return (line);
 }
 
 int	main(void)
