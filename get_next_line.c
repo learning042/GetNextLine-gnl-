@@ -6,14 +6,14 @@
 /*   By: tpinto-v <tpinto-v@student.42lisb...>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 15:48:28 by tpinto-v          #+#    #+#             */
-/*   Updated: 2026/05/05 19:15:27 by tpinto-v         ###   ########.fr       */
+/*   Updated: 2026/05/26 15:48:13 by tpinto-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <fcntl.h>
 #include <stdlib.h>
-#define BUFFER_SIZE 3
+#define BUFFER_SIZE 7
 #include <unistd.h>
 
 size_t	my_strlen(char *str, char term)
@@ -54,7 +54,7 @@ char	*my_strcat(char *s1, char *s2)
 	return (s1);
 }
 
-char	*my_strjoin(char *s1, char *s2, int was_allocated)
+char	*my_strjoin(char *s1, char *s2)
 {
 	static char	*s_conc;
 	size_t	i;
@@ -63,14 +63,9 @@ char	*my_strjoin(char *s1, char *s2, int was_allocated)
 	s_conc = malloc(my_strlen(s1, '\0') + my_strlen(s2, '\n') + 1);
 	if (s_conc == NULL)
 		return (NULL);
-	i = 0;
-	j = 0;
- 
-	s_conc[i] = '\0';
+	s_conc[0] = '\0';
 	my_strcat(s_conc, s1);
 	my_strcat(s_conc, s2);
-	if (was_allocated)
-		free(s1);
 	s1 = s_conc;
 	return (s_conc);
 }
@@ -92,22 +87,17 @@ void	shift_to_beggining(char arr[], int nindex, int size)
 
 char	*get_next_line(int fd)
 {
-	static char	buffer[BUFFER_SIZE];
+	static char	buffer[BUFFER_SIZE + 1];
 	char		*line;
 	size_t		i;
 
 	read(fd, buffer, BUFFER_SIZE);
-	line = malloc(BUFFER_SIZE + 1);
-	my_strjoin(line, buffer, 1);
-	while (line[my_strlen(line, '\n') - 1] != '\n')
-	{
-		if (read(fd, buffer, BUFFER_SIZE) < BUFFER_SIZE)
-		{
-			my_strjoin(line, buffer, 1);
-			break;
-		}
-		my_strjoin(line, buffer, 1);	
-	}
+	line = malloc(1);
+	my_strjoin(line, buffer);
+	if (my_strlen(line, '\n') != my_strlen(line, '\0'))
+		return (line);	
+	while (buffer[BUFFER_SIZE] != '\n' && read(fd, buffer, BUFFER_SIZE) == BUFFER_SIZE)
+		my_strjoin(line, buffer);	
 	return (line);
 }
 
@@ -116,5 +106,6 @@ int	main(void)
 	int		fd = open("world.txt", O_RDONLY);
 	char	*line = get_next_line(fd);
 	printf("%s", line);
+	printf("%s", get_next_line(fd));
 	return (0);
 }
