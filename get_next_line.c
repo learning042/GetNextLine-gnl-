@@ -5,6 +5,8 @@ char    *get_next_line(int fd)
 {
     static char    buffer[BUFFER_SIZE + 1];
     char        *line;
+    if (fd < 0)
+	return (NULL);
     line = malloc(1);
     if (!line)
         return (NULL);
@@ -25,10 +27,15 @@ char    *get_next_line(int fd)
     }
     if (ft_findnl(line))
         ft_shift_buffer(buffer);
-    else if (line[0] == '\0')
-		return (free(line), NULL);
+	else
+	{
+		buffer[0] = '\0';
+		if (line[0] == '\0')
+			return (free(line), NULL);
+	}
 	return (line);
 }
+/*
 int    main(void)
 {    
     int    fd = open("world.txt", O_RDONLY);
@@ -41,3 +48,4 @@ int    main(void)
     }
     return (0);
 }
+*/
