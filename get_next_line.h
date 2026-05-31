@@ -17,9 +17,9 @@
 #include <unistd.h>
 
 int		my_strlen(char *str, char term);
-char	*my_strcat(char *s1, char *s2);
 char	*my_strjoin(char *s1, char *s2);
 void	ft_shift_buffer(char *buf);
+char	*ft_get_line(int fd, char *buf, char **s);
 char	*get_next_line(int fd);
 int		ft_findnl(char *s);
 

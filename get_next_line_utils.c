@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_s_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinto-v <tpinto-v@student.42lisb...>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -34,46 +34,31 @@ int		ft_findnl(char *s)
 	return (1);
 }
 
-char	*my_strcat(char *s1, char *s2)
+char	*my_strjoin(char *s1, char *s2)
 {
-	int	i;
-	int	j;
+	char	*s_conc;
+	int		i;
+	int		j;
 
-	i = 0;
+	s_conc = malloc(my_strlen(s1, '\0') + my_strlen(s2, '\n') + 1 + ft_findnl(s2));
+	if (s_conc == NULL)
+		return (NULL);
+	i = -1;
 	j = 0;
-	while (s1[i])
-		++i;
+	while (s1[++i])
+		s_conc[i] = s1[i];
 	while (s2[j] && s2[j] != '\n')
 	{
-		s1[i + j] =  s2[j];
+		s_conc[i + j] =  s2[j];
 		++j;
 	}
 	if (s2[j] == '\n')
 	{
-		s1[i + j] = '\n';
-		s1[i + j + 1] = '\0';
+		s_conc[i + j] = '\n';
+		s_conc[i + j + 1] = '\0';
 	}
 	else
-		s1[i + j] = '\0';
-	return (s1);
-}
-
-char	*my_strjoin(char *s1, char *s2)
-{
-	int 	len1;
-	int		len2;
-	char	*s_conc;	
-
-	if (!s1 || !s2)
-		return (NULL);
-	len1 = my_strlen(s1, '\0');
-	len2 = my_strlen(s2, '\n');
-	s_conc = malloc(len1 + len2 + 2);
-	if (s_conc == NULL)
-		return (NULL);
-	s_conc[0] = '\0';
-	my_strcat(s_conc, s1);
-	my_strcat(s_conc, s2);
+		s_conc[i + j] = '\0';
 	free(s1);
 	return (s_conc);
 }
@@ -83,13 +68,39 @@ void	ft_shift_buffer(char *buf)
 	int	i;
 	int	nl_index;
 
-	nl_index = my_strlen(buf, '\n');
+	nl_index = my_strlen(buf, '\n') + ft_findnl(buf);
 	i = 0;
-	while (buf[nl_index + i + 1])
+	while (buf[nl_index + i])
 	{
-		buf[i] = buf[nl_index + i + 1];
-		buf[nl_index + i + 1] = '\0';
+		buf[i] = buf[nl_index + i];
 		++i;
 	}
 	buf[i] = '\0';
+}
+
+char	*ft_get_line(int fd, char *buf, char **s)
+{
+	int	bytes_read;
+
+	if (buf[0])
+	{
+		*s = my_strjoin(*s, buf);
+		if (!(*s))
+			return (NULL);
+		if (ft_findnl(*s))
+			return(ft_shift_buffer(buf), *s);
+	}
+	while ((bytes_read = read(fd, buf, BUFFER_SIZE)) > 0)
+	{
+		buf[bytes_read] = '\0';
+		*s = my_strjoin(*s, buf);
+		if (!(*s))
+			return (NULL);
+		if (ft_findnl(*s))
+			return (ft_shift_buffer(buf), *s);
+	}
+	buf[0] = '\0';
+	if (bytes_read < 0 || (*s)[0] == '\0')
+		return (free(*s), NULL);
+	return (*s);
 }
