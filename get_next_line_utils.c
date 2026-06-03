@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-int		my_strlen(char *s, char term)
+static int		my_strlen(char *s, char term)
 {
 	int	len;
 
@@ -22,7 +22,7 @@ int		my_strlen(char *s, char term)
 	return (len);
 }
 
-int		ft_findnl(char *s)
+static int		ft_findnl(char *s)
 {
 	int	len;
 	int	nl_index;
@@ -34,7 +34,7 @@ int		ft_findnl(char *s)
 	return (1);
 }
 
-char	*my_strjoin(char *s1, char *s2)
+static char	*my_strjoin(char *s1, char *s2)
 {
 	char	*s_conc;
 	int		i;
@@ -63,7 +63,7 @@ char	*my_strjoin(char *s1, char *s2)
 	return (s_conc);
 }
 
-void	ft_shift_buffer(char *buf)
+static void	ft_shift_buffer(char *buf)
 {
 	int	i;
 	int	nl_index;
