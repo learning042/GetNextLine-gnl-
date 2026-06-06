@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_s_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinto-v <tpinto-v@student.42lisb...>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/27 21:59:23 by tpinto-v          #+#    #+#             */
-/*   Updated: 2026/05/27 22:30:11 by tpinto-v         ###   ########.fr       */
+/*   Updated: 2026/06/06 16:51:29 by tpinto-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int		my_strlen(char *s, char term)
+static int	my_strlen(char *s, char term)
 {
 	int	len;
 
@@ -22,7 +22,7 @@ static int		my_strlen(char *s, char term)
 	return (len);
 }
 
-static int		ft_findnl(char *s)
+static int	ft_findnl(char *s)
 {
 	int	len;
 	int	nl_index;
@@ -49,7 +49,7 @@ static char	*my_strjoin(char *s1, char *s2)
 		s_conc[i] = s1[i];
 	while (s2[j] && s2[j] != '\n')
 	{
-		s_conc[i + j] =  s2[j];
+		s_conc[i + j] = s2[j];
 		++j;
 	}
 	if (s2[j] == '\n')
@@ -88,9 +88,10 @@ char	*ft_get_line(int fd, char *buf, char **s)
 		if (!(*s))
 			return (NULL);
 		if (ft_findnl(*s))
-			return(ft_shift_buffer(buf), *s);
+			return (ft_shift_buffer(buf), *s);
 	}
-	while ((bytes_read = read(fd, buf, BUFFER_SIZE)) > 0)
+	bytes_read = read(fd, buf, BUFFER_SIZE);
+	while (bytes_read > 0)
 	{
 		buf[bytes_read] = '\0';
 		*s = my_strjoin(*s, buf);
@@ -98,6 +99,7 @@ char	*ft_get_line(int fd, char *buf, char **s)
 			return (NULL);
 		if (ft_findnl(*s))
 			return (ft_shift_buffer(buf), *s);
+		bytes_read = read(fd, buf, BUFFER_SIZE);
 	}
 	buf[0] = '\0';
 	if (bytes_read < 0 || (*s)[0] == '\0')

@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tpinto-v <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/06 16:00:46 by tpinto-v          #+#    #+#             */
+/*   Updated: 2026/06/06 16:54:40 by tpinto-v         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line_bonus.h"
 
-char    *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
-	static char    buffer[1024][BUFFER_SIZE + 1];
-	char        *line;
+	static char	buffer[1024][BUFFER_SIZE + 1];
+	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
