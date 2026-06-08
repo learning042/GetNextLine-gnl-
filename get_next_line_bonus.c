@@ -6,7 +6,7 @@
 /*   By: tpinto-v <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/06 16:00:46 by tpinto-v          #+#    #+#             */
-/*   Updated: 2026/06/06 16:54:40 by tpinto-v         ###   ########.fr       */
+/*   Updated: 2026/06/08 09:42:36 by tpinto-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,18 @@ char	*get_next_line(int fd)
 	return (line);
 }
 /*
+#include <fcntl.h>
+#include <stdio.h>
 int    main(void)
 {    
     int	fd = open("hello.txt", O_RDONLY);
     int	fd2 = open("world.txt", O_RDONLY);	
     char    *line = get_next_line(fd);
-    while (line != NULL)
-    {
-        printf("%s", line);
-	free(line);
-        line = get_next_line(fd);
-    }
-char    *line2 = get_next_line(fd2);
-    while (line2 != NULL)
-    {
-        printf("%s", line2);
-	free(line2);
-        line2 = get_next_line(fd2);
-    }
+    printf("%s", line);
+	char    *line2 = get_next_line(fd2);
+	printf("%s", line2);
+	line = get_next_line(fd);
+	printf("%s", line);
     return (0);
 }
 */

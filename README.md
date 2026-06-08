@@ -2,7 +2,7 @@ _This project was created as part of the 42 curriculum by tpinto-v._
 
 # Description
 
-This project implements a function that takes a **file descriptor** associated with a file or input stream and returns a string containing the next line read from it, including the newline character `'\n'` when one is found.
+This project implements a function that takes a **file descriptor** associated with a file or input stream and returns a string containing the next line read from it, including the newline character `'\n'` when one is found. The goal of this project is not just being more used to file descriptors but also to learn about and make use of a static variable.
 
 ## File descriptor details
 
