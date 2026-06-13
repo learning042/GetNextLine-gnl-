@@ -6,11 +6,11 @@
 /*   By: tpinto-v <tpinto-v@student.42lisb...>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/27 21:59:23 by tpinto-v          #+#    #+#             */
-/*   Updated: 2026/06/06 16:51:29 by tpinto-v         ###   ########.fr       */
+/*   Updated: 2026/06/08 09:53:53 by tpinto-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static int	my_strlen(char *s, char term)
 {

@@ -6,7 +6,7 @@
 /*   By: tpinto-v <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/06 16:00:46 by tpinto-v          #+#    #+#             */
-/*   Updated: 2026/06/08 09:42:36 by tpinto-v         ###   ########.fr       */
+/*   Updated: 2026/06/09 10:41:08 by tpinto-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 char	*get_next_line(int fd)
 {
-	static char	buffer[1024][BUFFER_SIZE + 1];
+	static char	buffer[FD_MAX + 1][BUFFER_SIZE + 1];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || FD_MAX < 0 || fd > FD_MAX)
 		return (NULL);
 	line = malloc(1);
 	if (!line)

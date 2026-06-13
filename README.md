@@ -72,10 +72,10 @@ static char buffer[BUFFER_SIZE + 1];
 to:
 
 ```c
-static char buffer[1024][BUFFER_SIZE + 1];
+static char buffer[FD_MAX + 1][BUFFER_SIZE + 1];
 ```
 
-`1024` is commonly used in 42 projects as an upper bound for file descriptors. However, production code should still check that `fd` is valid before indexing the array. When calling `ft_get_line`, pass `buffer[fd]` instead of `buffer` to isolate each file descriptor's state.
+`FD_MAX = 1024` is commonly used in 42 projects as an upper bound for file descriptors. However, production code should still check that `fd` is valid before indexing the array. When calling `ft_get_line`, pass `buffer[fd]` instead of `buffer` to isolate each file descriptor's state.
 
 # Instructions
 
@@ -89,10 +89,10 @@ static char buffer[1024][BUFFER_SIZE + 1];
 
 3. Compile (mandatory example):
    ```bash
-   cc -D BUFFER_SIZE=42 -Wall -Wextra -Werror -I/path/to/header_directory \
+   cc -D FD_MAX=42 BUFFER_SIZE=42 -Wall -Wextra -Werror -I/path/to/header_directory \
        get_next_line_utils.c get_next_line.c your_file.c -o your_program
    ```
-   Replace `42` with your desired buffer size and adjust the paths as needed.
+   Replace `42` with your desired buffer size/maximum file descriptor and adjust the paths as needed. If you forget to give values to the macros, I let the default value being `BUFFER_SIZE = 1` and `FD_MAX = 1023`.
 
 4. Run the executable:
    ```bash
